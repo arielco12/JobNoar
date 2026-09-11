@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>פרטי משרה - ג'ובנוער</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>🚀</text></svg>" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-row">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </div>
+      <div class="brand-text">
+        <h1>ג'ובנוער</h1>
+        <p>עבודה ראשונה מתחילה כאן</p>
+      </div>
+    </a>
+    <button class="nav-toggle" aria-label="תפריט">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">חיפוש עבודה</a>
+      <a href="faq.html">שאלות נפוצות</a>
+      <a href="https://wa.me/972500000000" target="_blank" rel="noopener">צ'אט בוואטסאפ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container" id="jobDetail">
+  <a href="index.html" class="back-link">→ חזרה לחיפוש</a>
+  <!-- התוכן ייטען כאן ע"י JavaScript -->
+</main>
+
+<div class="container" id="notFound" style="display:none;">
+  <div class="empty-state">
+    <div class="emoji">😕</div>
+    <p>המשרה המבוקשת לא נמצאה.<br/><a href="index.html">חזרה לרשימת המשרות</a></p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>© 2026 ג'ובנוער - עבודה ראשונה מתחילה כאן</span>
+    <span><a href="faq.html">שאלות נפוצות</a> · <a href="https://wa.me/972500000000" target="_blank" rel="noopener">צרו קשר בוואטסאפ</a></span>
+  </div>
+</footer>
+
+<script src="js/jobs.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const id = qs("id");
+  const job = JOBS.find((j) => j.id === id);
+  const wrap = document.getElementById("jobDetail");
+
+  if (!job) {
+    wrap.style.display = "none";
+    document.getElementById("notFound").style.display = "block";
+  } else {
+    document.title = `${job.title} - ${job.business} | ג'ובנוער`;
+
+    const chatText = `שלום, ראיתי את המשרה "${job.title}" ב-${job.business} דרך ג'ובנוער ורציתי לשאול כמה שאלות לפני שאני מגיש/ה מועמדות 🙂`;
+
+    wrap.insertAdjacentHTML("beforeend", `
+      <div class="job-hero-tile" style="background:${job.tileColor}">
+        ${job.icon}
+        ${renderBadges(job.badges)}
+      </div>
+
+      <div class="job-title-block">
+        <h2>${job.title}</h2>
+        <p class="business-line">🏢 ${job.business} · ${job.businessType}</p>
+        <p class="location-line">📍 ${job.city}</p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="icon">🧑</div>
+          <div class="label">גיל מתאים</div>
+          <div class="value">${job.minAge}+</div>
+        </div>
+        <div class="stat">
+          <div class="icon">💰</div>
+          <div class="label">שכר</div>
+          <div class="value">${job.salary} ש"ח לשעה</div>
+        </div>
+        <div class="stat">
+          <div class="icon">📅</div>
+          <div class="label">הגשה עד</div>
+          <div class="value">${job.deadline}</div>
+        </div>
+        <div class="stat">
+          <div class="icon">🕐</div>
+          <div class="label">שעות עבודה</div>
+          <div class="value">${job.hoursFrom} - ${job.hoursTo}</div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>📄 תיאור המשרה</h3>
+        <p>${job.description}</p>
+      </div>
+
+      <div class="note-box">💚 ${job.note}</div>
+
+      <div class="section-card">
+        <h3>🗺️ מיקום העסק</h3>
+        <p>${job.address}</p>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(job.address)}" target="_blank" rel="noopener">
+          📍 פתיחה במפות גוגל
+        </a>
+      </div>
+
+      <div class="section-card">
+        <h3>🏬 פרטי העסק</h3>
+        <p>${job.businessDetails}</p>
+      </div>
+
+      <div class="tip-box">
+        💡 לפני שמגיעים לפגישה או למשמרת הראשונה, כדאי לתאם שעה מדויקת מול המעסיק.
+      </div>
+
+      <div class="action-row">
+        <a class="btn btn-outline" href="${waLink(job.whatsapp, chatText)}" target="_blank" rel="noopener">
+          💬 שיחה עם המעסיק
+        </a>
+        <a class="btn btn-primary" href="apply.html?id=${job.id}">
+          🚀 הגשת מועמדות
+        </a>
+      </div>
+    `);
+  }
+</script>
+</body>
+</html>

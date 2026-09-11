@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>הגשת מועמדות - ג'ובנוער</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>🚀</text></svg>" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-row">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </div>
+      <div class="brand-text">
+        <h1>ג'ובנוער</h1>
+        <p>עבודה ראשונה מתחילה כאן</p>
+      </div>
+    </a>
+    <button class="nav-toggle" aria-label="תפריט">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">חיפוש עבודה</a>
+      <a href="faq.html">שאלות נפוצות</a>
+      <a href="https://wa.me/972500000000" target="_blank" rel="noopener">צ'אט בוואטסאפ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <a href="#" id="backLink" class="back-link">→ חזרה למשרה</a>
+
+  <div id="applyWrap">
+    <section class="page-hero" style="padding-top:10px;">
+      <h2>🚀 הגשת מועמדות</h2>
+      <p id="jobSubtitle">מלא/י את הפרטים שלך, ונשלח אותם למעסיק בוואטסאפ.</p>
+    </section>
+
+    <div class="info-tip">
+      💡 <span>המידע שתמלא/י כאן יישלח ישירות למעסיק דרך WhatsApp. לא נשמר אצלנו מידע אישי - זו הגשת מועמדות חד-פעמית.</span>
+    </div>
+
+    <form id="applyForm">
+      <div class="form-card">
+        <h3>🙋 פרטים אישיים</h3>
+        <div class="two-col">
+          <div class="field">
+            <label for="fullName">שם מלא</label>
+            <input type="text" id="fullName" required placeholder="לדוגמה: נועם לוי" />
+          </div>
+          <div class="field">
+            <label for="age">גיל</label>
+            <input type="number" id="age" min="14" max="18" required placeholder="16" />
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label for="phone">טלפון נייד</label>
+            <input type="tel" id="phone" required placeholder="050-1234567" />
+          </div>
+          <div class="field">
+            <label for="city">עיר מגורים</label>
+            <input type="text" id="city" required placeholder="לדוגמה: ראשון לציון" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">אימייל <span class="hint">(אופציונלי)</span></label>
+          <input type="email" id="email" placeholder="name@example.com" />
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>✍️ על עצמי</h3>
+        <div class="field">
+          <label for="about">ספר/י קצת על עצמך <span class="hint">(אופציונלי)</span></label>
+          <textarea id="about" placeholder="לדוגמה: אני תלמיד/ה כיתה י', אוהב/ת לעבוד בצוות ומחפש/ת עבודה ראשונה..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>💼 ניסיון קודם</h3>
+        <p style="color:var(--gray-600); font-size:0.9rem; margin-top:-6px;">האם עבדת פעם בעבר?</p>
+        <div class="radio-cards">
+          <label class="radio-card">
+            <input type="radio" name="experience" value="כן" />
+            <span class="emoji">✅</span> כן, עבדתי פעם
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="experience" value="לא" checked />
+            <span class="emoji">🙅</span> אין לי ניסיון קודם
+          </label>
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label for="experienceDetails">פרטים נוספים <span class="hint">(אופציונלי)</span></label>
+          <input type="text" id="experienceDetails" placeholder="לדוגמה: עבדתי בעבר בבקטה, שירות לקוחות, בייביסיטר..." />
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>🕐 זמינות</h3>
+        <p style="color:var(--gray-600); font-size:0.9rem; margin-top:-6px;">באילו ימים את/ה יכול/ה לעבוד?</p>
+        <div class="day-grid" id="dayGrid">
+          <label class="day-chip"><input type="checkbox" value="א'" /> א'</label>
+          <label class="day-chip"><input type="checkbox" value="ב'" /> ב'</label>
+          <label class="day-chip"><input type="checkbox" value="ג'" /> ג'</label>
+          <label class="day-chip"><input type="checkbox" value="ד'" /> ד'</label>
+          <label class="day-chip"><input type="checkbox" value="ה'" /> ה'</label>
+          <label class="day-chip"><input type="checkbox" value="ו'" /> ו'</label>
+          <label class="day-chip"><input type="checkbox" value="שבת" /> שבת</label>
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label for="hoursAvail">שעות זמינות <span class="hint">(אופציונלי)</span></label>
+          <input type="text" id="hoursAvail" placeholder="לדוגמה: 16:00-20:00" />
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg btn-block">
+        🚀 שליחת מועמדות בוואטסאפ
+      </button>
+    </form>
+  </div>
+
+  <div class="success-card" id="successCard" style="display:none;">
+    <div class="emoji">🎉</div>
+    <h2>המועמדות שלך מוכנה!</h2>
+    <p>פתחנו עבורך שיחת WhatsApp עם כל הפרטים - פשוט לוחצים "שליחה" בתוך וואטסאפ כדי להשלים את הגשת המועמדות למעסיק.</p>
+    <a href="index.html" class="btn btn-outline">חזרה לרשימת המשרות</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>© 2026 ג'ובנוער - עבודה ראשונה מתחילה כאן</span>
+    <span><a href="faq.html">שאלות נפוצות</a> · <a href="https://wa.me/972500000000" target="_blank" rel="noopener">צרו קשר בוואטסאפ</a></span>
+  </div>
+</footer>
+
+<script src="js/jobs.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const id = qs("id");
+  const job = JOBS.find((j) => j.id === id);
+  const backLink = document.getElementById("backLink");
+
+  if (!job) {
+    document.getElementById("applyWrap").innerHTML = `
+      <div class="empty-state">
+        <div class="emoji">😕</div>
+        <p>המשרה המבוקשת לא נמצאה.<br/><a href="index.html">חזרה לרשימת המשרות</a></p>
+      </div>`;
+    backLink.href = "index.html";
+  } else {
+    document.title = `הגשת מועמדות - ${job.title} | ג'ובנוער`;
+    backLink.href = `job.html?id=${job.id}`;
+    document.getElementById("jobSubtitle").textContent =
+      `הגשת מועמדות למשרת "${job.title}" ב-${job.business}, ${job.city}`;
+
+    document.getElementById("applyForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const age = document.getElementById("age").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const about = document.getElementById("about").value.trim();
+      const experience = document.querySelector('input[name="experience"]:checked').value;
+      const experienceDetails = document.getElementById("experienceDetails").value.trim();
+      const days = [...document.querySelectorAll("#dayGrid input:checked")].map((el) => el.value);
+      const hoursAvail = document.getElementById("hoursAvail").value.trim();
+
+      let msg = `שלום, אני מעוניין/ת להגיש מועמדות למשרת "${job.title}" ב-${job.business} (דרך ג'ובנוער) 🚀\n\n`;
+      msg += `👤 שם: ${fullName}\n`;
+      msg += `🎂 גיל: ${age}\n`;
+      msg += `📞 טלפון: ${phone}\n`;
+      msg += `🏙️ עיר מגורים: ${city}\n`;
+      if (email) msg += `✉️ אימייל: ${email}\n`;
+      if (about) msg += `\n📝 קצת עליי: ${about}\n`;
+      msg += `\n💼 ניסיון קודם: ${experience}`;
+      if (experienceDetails) msg += ` - ${experienceDetails}`;
+      msg += `\n\n🕐 זמינות: ${days.length ? days.join(", ") : "לא צוין"}`;
+      if (hoursAvail) msg += ` (${hoursAvail})`;
+      msg += `\n\nתודה רבה ומצפה/ה לתשובתך!`;
+
+      window.open(waLink(job.whatsapp, msg), "_blank");
+
+      document.getElementById("applyWrap").style.display = "none";
+      backLink.style.display = "none";
+      document.getElementById("successCard").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+</script>
+</body>
+</html>
