@@ -45,15 +45,23 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  // כפתור וואטסאפ צף כללי
-  if (!document.querySelector(".wa-float") && typeof SITE_WHATSAPP !== "undefined") {
-    const a = document.createElement("a");
-    a.className = "wa-float";
-    a.href = waLink(SITE_WHATSAPP, "שלום! יש לי שאלה לגבי ג'ובנוער 🙂");
-    a.target = "_blank";
-    a.rel = "noopener";
-    a.title = "צ'אט בוואטסאפ";
-    a.innerHTML = "💬";
-    document.body.appendChild(a);
+  // כפתור וואטסאפ צף כללי + כל קישורי "צ'אט בוואטסאפ" בתפריט/פוטר
+  if (typeof SITE_WHATSAPP !== "undefined") {
+    const greeting = "שלום! יש לי שאלה לגבי ג'ובנוער 🙂";
+
+    document.querySelectorAll(".wa-general-link").forEach((a) => {
+      a.href = waLink(SITE_WHATSAPP, greeting);
+    });
+
+    if (!document.querySelector(".wa-float")) {
+      const a = document.createElement("a");
+      a.className = "wa-float";
+      a.href = waLink(SITE_WHATSAPP, greeting);
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.title = "צ'אט בוואטסאפ";
+      a.innerHTML = "💬";
+      document.body.appendChild(a);
+    }
   }
 });
