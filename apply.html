@@ -39,8 +39,9 @@
     </section>
 
     <div class="info-tip">
-      💡 <span>המידע שתמלא/י כאן יישלח ישירות למעסיק דרך WhatsApp. לא נשמר אצלנו מידע אישי - זו הגשת מועמדות חד-פעמית.</span>
+      💡 <span>המידע שתמלא/י כאן יישלח ישירות למעסיק דרך WhatsApp. אנחנו לא שומרים שום מידע בשרת - הטופס נשמר אוטומטית תוך כדי מילוי רק בדפדפן שלך במחשב הזה, כך שגם אם תצא/י מהעמוד באמצע ותחזור/י (לאותה משרה או למשרה אחרת), לא תצטרך/י למלא הכל מחדש. <a href="#" id="clearSavedLink">נקה/י את הפרטים השמורים</a>.</span>
     </div>
+    <p class="draft-note" id="prefillNote" style="display:none;">✅ מילאנו עבורך את הפרטים שמילאת בפעם הקודמת - אפשר לערוך אותם לפני השליחה.</p>
 
     <form id="applyForm">
       <div class="form-card">
@@ -140,6 +141,71 @@
 <script src="js/jobs.js"></script>
 <script src="js/main.js"></script>
 <script>
+  const PROFILE_KEY = "jobnoar_applicant_profile";
+
+  function loadSavedProfile() {
+    try {
+      return JSON.parse(localStorage.getItem(PROFILE_KEY) || "null");
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveProfile(profile) {
+    try {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    } catch (e) {}
+  }
+
+  function fillFormFromProfile(profile) {
+    if (!profile) return;
+    document.getElementById("fullName").value = profile.fullName || "";
+    document.getElementById("age").value = profile.age || "";
+    document.getElementById("phone").value = profile.phone || "";
+    document.getElementById("city").value = profile.city || "";
+    document.getElementById("email").value = profile.email || "";
+    document.getElementById("about").value = profile.about || "";
+    document.getElementById("experienceDetails").value = profile.experienceDetails || "";
+    document.getElementById("hoursAvail").value = profile.hoursAvail || "";
+    if (profile.experience) {
+      const radio = document.querySelector(`input[name="experience"][value="${profile.experience}"]`);
+      if (radio) radio.checked = true;
+    }
+    if (profile.days && profile.days.length) {
+      document.querySelectorAll("#dayGrid input").forEach((el) => {
+        el.checked = profile.days.includes(el.value);
+      });
+    }
+    document.getElementById("prefillNote").style.display = "block";
+  }
+
+  function readFormAsProfile() {
+    return {
+      fullName: document.getElementById("fullName").value.trim(),
+      age: document.getElementById("age").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      city: document.getElementById("city").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      about: document.getElementById("about").value.trim(),
+      experience: document.querySelector('input[name="experience"]:checked')?.value || "",
+      experienceDetails: document.getElementById("experienceDetails").value.trim(),
+      days: [...document.querySelectorAll("#dayGrid input:checked")].map((el) => el.value),
+      hoursAvail: document.getElementById("hoursAvail").value.trim()
+    };
+  }
+
+  function autosave() {
+    saveProfile(readFormAsProfile());
+  }
+
+  document.getElementById("clearSavedLink").addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem(PROFILE_KEY);
+    document.getElementById("applyForm").reset();
+    document.getElementById("prefillNote").style.display = "none";
+    alert("הפרטים השמורים נמחקו מהדפדפן הזה.");
+  });
+
   const id = qs("id");
   const job = JOBS.find((j) => j.id === id);
   const backLink = document.getElementById("backLink");
@@ -157,19 +223,22 @@
     document.getElementById("jobSubtitle").textContent =
       `הגשת מועמדות למשרת "${job.title}" ב-${job.business}, ${job.city}`;
 
-    document.getElementById("applyForm").addEventListener("submit", (e) => {
+    fillFormFromProfile(loadSavedProfile());
+
+    const applyFormEl = document.getElementById("applyForm");
+    applyFormEl.addEventListener("input", autosave);
+    applyFormEl.addEventListener("change", autosave);
+    // רשת ביטחון: שמירה גם ממש לפני יציאה/סגירה של הדף
+    window.addEventListener("pagehide", autosave);
+    window.addEventListener("beforeunload", autosave);
+
+    applyFormEl.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const fullName = document.getElementById("fullName").value.trim();
-      const age = document.getElementById("age").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const city = document.getElementById("city").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const about = document.getElementById("about").value.trim();
-      const experience = document.querySelector('input[name="experience"]:checked').value;
-      const experienceDetails = document.getElementById("experienceDetails").value.trim();
-      const days = [...document.querySelectorAll("#dayGrid input:checked")].map((el) => el.value);
-      const hoursAvail = document.getElementById("hoursAvail").value.trim();
+      const profile = readFormAsProfile();
+      const { fullName, age, phone, city, email, about, experience, experienceDetails, days, hoursAvail } = profile;
+
+      saveProfile(profile);
 
       let msg = `שלום, אני מעוניין/ת להגיש מועמדות למשרת "${job.title}" ב-${job.business} (דרך ג'ובנוער) 🚀\n\n`;
       msg += `👤 שם: ${fullName}\n`;
